@@ -6,7 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<title>Project - Raj Patel</title> 
 	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFp6N9lp8Ha9sH7jkms6O7Q-q4HMTD3UI&callback=initMap"
+	type="text/javascript"></script> -->
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -27,7 +29,11 @@
         </div><!-- /header -->
 
         <div data-role="content" >	
-            <h2 style="text-align: center;">Bike Sharing Locations</h2>
+			<h2 style="text-align: center;">Bike Sharing Locations</h2>
+			
+			<a href="#availDocks" id="availDocks" data-role="button"> 
+				View locations with available docks
+			</a>
 			<br>
 			<p>Show all bike sharing locations that support larger groups</p>
             <!-- Show list view content here-->
@@ -44,7 +50,7 @@
         </div><!-- /footer -->
     </div><!-- /page one -->
 
-	<!-- Start of second page: #two. This will open when a location is selected from listview -->
+	<!-- Start of second page. This will open when a location is selected from listview -->
 	<div data-role="page" id="moreDetails">
 		<div data-role="header">
 			<h1>Additional Information</h1>
@@ -66,7 +72,26 @@
 	</div><!-- /page two -->
 
 
+	<!-- Start of third page. This will show available docks' locations -->
+	<div data-role="page" id="availDocks">
+		<div data-role="header">
+			<h1>Locations with available docks</h1>
+			<a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back</a>
+		</div><!-- /header -->
 
+		<div data-role="content">
+			
+			<h2> A map showing locations with available docks</h2>
+			
+			<!-- add a map here -->
+			<div id="map_canvas" style="width: 100%; height: 400px;"></div>
+			
+		</div><!-- /content -->
+
+		<div data-role="footer">
+			<h4>Project - Raj Patel</h4>
+		</div><!-- /footer -->
+	</div><!-- /page two -->
  
 </body>
 </html>
