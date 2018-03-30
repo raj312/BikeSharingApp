@@ -128,8 +128,6 @@ $(document).on("click", "#largerGroupInformation >li", function() {
 
 $(document).on("pageshow", "#availDocks", function() {
 	if (navigator.geolocation){
-		//lat = 43.66207;
-		//lng = -80.37617;
 
 		navigator.geolocation.getCurrentPosition(pos => {
 			lat = pos.coords.latitude;
@@ -180,15 +178,19 @@ function drawMap(lat,lng)
 		}
 	});
 
+	var distance;
 	jsonData.forEach(l => {
-		if(l.availableDocks > 20){
+		distance = Haversine(lat, lng, l.latitude, l.longitude);
+		console.log(distance + "km");
+		if(l.availableDocks > 20 && distance < 30.599){
 			var aMarker = new google.maps.Marker ({
 				map: map,animation: google.maps.Animation.DROP,
 				position: new google.maps.LatLng(l.latitude, l.longitude)
 			});
 		
 			var aInfo = new google.maps.InfoWindow ( 
-				{content: l.stationName + " has " + l.availableDocks + " available docks", maxWidth: 150  } 
+				{content: l.stationName + " has " + l.availableDocks + 
+				" available docks. Distance: " + distance, maxWidth: 150  } 
 			);
 			
 			google.maps.event.addListener(aMarker, "click", function() {aInfo.open(map, aMarker);});
@@ -197,7 +199,8 @@ function drawMap(lat,lng)
 			geocoder.geocode(
 				{"latLng":new google.maps.LatLng(l.latitude, l.longitude)},function(adata,status) {
 					if(adata != null){
-						aInfo.setContent(adata[0].formatted_address + " Available docks: " + l.availableDocks);
+						aInfo.setContent(adata[0].formatted_address + 
+							" Available docks: " + l.availableDocks + " Distance: " + distance);
 					}
 			}); 
 			
@@ -205,6 +208,23 @@ function drawMap(lat,lng)
 	});
 
 }
+
+//get distance in kilometers
+function Haversine( lat1, lng1, lat2, lng2 ) {
+	var R = 6372.8; // Earth Radius in Kilometers
+	var dLat = Deg2Rad(lat2-lat1); 
+	var dLng = Deg2Rad(lng2-lng1);  
+	var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(Deg2Rad(lat1)) * Math.cos(Deg2Rad(lat2)) * Math.sin(dLng/2) * Math.sin(dLng/2);  
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+	var d = R * c; 
+	// Return Distance in Kilometers
+	return d;
+};
+
+function Deg2Rad( deg ) { 
+	return deg * Math.PI / 180; 
+}  
+
 
 //success
 function success(pos)
