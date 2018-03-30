@@ -35,7 +35,13 @@
 				View locations with available docks
 			</a>
 			<br>
-			<p>Show all bike sharing locations that support larger groups</p>
+			<p>Show all bike sharing locations that support larger groups(default = 15).
+				Please enter the number of total docks required to support your group.</p>
+			<br>
+			<label for="groupNum">Total docks required for the group</label>
+			<input type="text" id="groupNum" value="15">
+			<button type="button" value="Search" id="searchBtn">Search</button>
+
             <!-- Show list view content here-->
             <div id="show">
 				<ul id="largerGroupInformation" data-role="listview" data-inset="true">

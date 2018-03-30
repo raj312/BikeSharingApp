@@ -3,41 +3,53 @@ $(function() {
 
 	//get JSON data
 	$.getJSON('bikeshare.json', loadData);
-	
+	groupNumber = $("#groupNum").val();
+
+
+	//user changes value and hits search
+	$("#searchBtn").click(function(){
+		groupNumber = $("#groupNum").val();
+		updateList(groupNumber);
+	});
 
 }) //End of document ready
 
 var jsonData; //global var
+var groupNumber;
 
 function loadData(data){
 	jsonData = data.stationBeanList;
-
-	var stationList = data.stationBeanList;
-	//loop through all the data and 
-
-	stationList.forEach(element => {
-		console.log(element.totalDocks);
-		
-		//Assume larger groups require more than 15 docks
-
-		if(element.totalDocks > 15) {
-			$("ul#largerGroupInformation").append(
-				"<li li-id='"+element.id+"'>" +
-					"<a href='#moreDetails'>  " +
-						"<h3>" + element.id + " - " + element.stationName + " </h3>" +
-					"</a>" +
-				"</li>");
-		}
-		
-	});
-
-	$("ul#largerGroupInformation").listview("refresh");
+	updateList(groupNumber);
+}
 	
 
-	//console.log(stationList);
-
+function updateList(groupNumber){
+	$("ul#largerGroupInformation").html("");
+	var stationList = jsonData;
+	//loop through all the data and 
+	if(groupNumber == null || groupNumber < 0){
+		alert("Enter a valid input. Should be greater than 0");
+	}else{
+	
+		stationList.forEach(element => {
+			// console.log(element.totalDocks);
+			
+			//Assume larger groups require 15 or more docks
+			if(element.totalDocks >= groupNumber) {
+				$("ul#largerGroupInformation").append(
+					"<li li-id='"+element.id+"'>" +
+						"<a href='#moreDetails'>  " +
+							"<h3>" + element.id + " - " + element.stationName + " </h3>" +
+						"</a>" +
+					"</li>");
+			}	
+		});
+	}
+	$("ul#largerGroupInformation").listview("refresh");
 
 }
+
+
 
 
 //Display location details
