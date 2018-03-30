@@ -1,11 +1,11 @@
 {
   "background_color": "#FFF",
   "display": "standalone",
-  "name": "HelloCordova",
-  "short_name": "HelloCordova",
+  "name": "Bike sharing application",
+  "short_name": "Bike sharing application",
   "version": "io.cordova.hellocordova",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
-  "author": "Apache Cordova Team",
+  "description": "A simple bike sharing applicaton that uses google map APIs and data from a JSON to\n        show a list of bike sharing locations and where locations that have available docks are\n        located on the map.",
+  "author": "Raj Patel",
   "icons": [],
   "start_url": "index.html"
 }

@@ -8,9 +8,11 @@ var distanceInput = 30.599;
 //Document ready function
 $(function() {
 	//get JSON data
-	$.getJSON('../bikeshare.json', loadData);
+	$.getJSON('bikeshare.json', loadData)
+	.fail(function() {
+		alert("Failed to load JSON");
+	  });
 	groupNumber = $("#groupNum").val();
-
 	//user changes value and hits search
 	$("#searchBtn").click(function(){
 		groupNumber = $("#groupNum").val();
@@ -45,8 +47,6 @@ function updateList(groupNumber){
 		alert("Enter a valid input. Should be greater than 0");
 	}else{
 		stationList.forEach(element => {
-			// console.log(element.totalDocks);
-			
 			//Assume larger groups require 15 or more docks
 			if(element.totalDocks >= groupNumber) {
 				$("ul#largerGroupInformation").append(
