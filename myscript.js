@@ -2,7 +2,7 @@
 
 var lat = 43.656246;
 var lng = -79.739509;
-
+var distanceInput = 30.599;
 $(function() {
 
 	//get JSON data
@@ -25,6 +25,13 @@ $(function() {
 			lng = pos.coords.longitude;
 		});
 	}
+
+	//user inputs distance and hits find
+	$("#findBtn").click(function(){
+		distanceInput = $("#distanceInput").val();
+		drawMap(lat, lng);
+	});
+
 }) //End of document ready
 
 var jsonData; //global var
@@ -182,7 +189,7 @@ function drawMap(lat,lng)
 	jsonData.forEach(l => {
 		distance = Haversine(lat, lng, l.latitude, l.longitude);
 		console.log(distance + "km");
-		if(l.availableDocks > 20 && distance < 30.599){
+		if(l.availableDocks > 20 && distance < distanceInput){
 			var aMarker = new google.maps.Marker ({
 				map: map,animation: google.maps.Animation.DROP,
 				position: new google.maps.LatLng(l.latitude, l.longitude)
@@ -224,47 +231,3 @@ function Haversine( lat1, lng1, lat2, lng2 ) {
 function Deg2Rad( deg ) { 
 	return deg * Math.PI / 180; 
 }  
-
-
-//success
-function success(pos)
-{
-	lat = pos.coords.latitude;
-	lng = pos.coords.longitude;
-//	alert(lat + " " + lng);
-//	drawMap(lat,lng)
-	alert("Hi");
-};
-		
-//error
-function error(err) {
-	if (err.code == 1) {
-		alert("Permission denied");
-	} else if (err.code == 2) {
-		alert("Error")
-	}
-};
-
-function initMap(){
-	alert("yp");
-}
-
-//add multiple markers
-function addMarkers(){
-
-	jsonData.forEach(l => {
-		if(l.availableDocks > 0){
-			var aMarker = new google.maps.Marker ({
-				map: map,animation: google.maps.Animation.DROP,
-				position: new google.maps.LatLng(l.latitude, l.longitude)
-			});
-		
-			var ainfo = new google.maps.InfoWindow ( 
-				{content: "Available Docks" + l.availableDocks, maxWidth: 150  } 
-			);
-			
-			google.maps.event.addListener(aMarker, "click", function() {info.open(map, aMarker);});
-		}
-	});
-}
-
