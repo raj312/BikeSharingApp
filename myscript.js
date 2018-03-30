@@ -5,7 +5,6 @@ $(function() {
 	$.getJSON('bikeshare.json', loadData);
 	groupNumber = $("#groupNum").val();
 
-
 	//user changes value and hits search
 	$("#searchBtn").click(function(){
 		groupNumber = $("#groupNum").val();
@@ -21,7 +20,6 @@ function loadData(data){
 	jsonData = data.stationBeanList;
 	updateList(groupNumber);
 }
-	
 
 function updateList(groupNumber){
 	$("ul#largerGroupInformation").html("");
@@ -59,8 +57,11 @@ $(document).on("pageshow", "#moreDetails", function() {
 
 	rowid  = localStorage.getItem("rowid");
 	//fetch data with a specific id
+	
+	
 	jsonData.forEach(d => {
 		if(d.id == rowid){
+			var addressInformation = "address goes here";
 			$("#extraInfo").append(
 			"<tr>" +
 				"<th> Station Name</th> " +
@@ -81,17 +82,22 @@ $(document).on("pageshow", "#moreDetails", function() {
 			"<tr>" +
 				"<th> Available Bikes</th> " +
 				" <td> " + d.availableBikes + "</td>" +
-			"</tr>" +
-			"<tr>" +
-				"<th> Address</th> " +
-				" <td> " + "address here" + "</td>" +
 			"</tr>" 
 			);
 
+			var geocoder = new google.maps.Geocoder();
+			geocoder.geocode(
+				{"latLng":new google.maps.LatLng(d.latitude, d.longitude)},function(bdata,status) {
+					if(bdata != null){
+						addressInformation = bdata[0].formatted_address;
+						$("#extraInfo").append("<tr><th> Address</th> " +
+							" <td> " + addressInformation + "</td>" +
+							"</tr>" 
+						);
+					}
+			});
 		}
-	
 	});
-
 })
 
 
@@ -226,10 +232,6 @@ function addMarkers(){
 			
 			google.maps.event.addListener(aMarker, "click", function() {info.open(map, aMarker);});
 		}
-
-//		console.log(l.stationName + " " + l.latitude + " " + l.longitude);
 	});
-
-
 }
 
