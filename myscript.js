@@ -1,10 +1,12 @@
-//Document ready function
-
+//global vars
+var jsonData; 
+var groupNumber;
 var lat = 43.656246;
 var lng = -79.739509;
 var distanceInput = 30.599;
-$(function() {
 
+//Document ready function
+$(function() {
 	//get JSON data
 	$.getJSON('bikeshare.json', loadData);
 	groupNumber = $("#groupNum").val();
@@ -17,9 +19,6 @@ $(function() {
 
 	//get current location
 	if (navigator.geolocation){
-		//lat = 43.66207;
-		//lng = -80.37617;
-
 		navigator.geolocation.getCurrentPosition(pos => {
 			lat = pos.coords.latitude;
 			lng = pos.coords.longitude;
@@ -31,11 +30,7 @@ $(function() {
 		distanceInput = $("#distanceInput").val();
 		drawMap(lat, lng);
 	});
-
 }) //End of document ready
-
-var jsonData; //global var
-var groupNumber;
 
 function loadData(data){
 	jsonData = data.stationBeanList;
@@ -49,7 +44,6 @@ function updateList(groupNumber){
 	if(groupNumber == null || groupNumber < 0){
 		alert("Enter a valid input. Should be greater than 0");
 	}else{
-	
 		stationList.forEach(element => {
 			// console.log(element.totalDocks);
 			
@@ -65,21 +59,15 @@ function updateList(groupNumber){
 		});
 	}
 	$("ul#largerGroupInformation").listview("refresh");
-
 }
-
-
-
 
 //Display location details
 $(document).on("pageshow", "#moreDetails", function() {
 	//clear the table
 	$("#extraInfo").html("");
-
 	rowid  = localStorage.getItem("rowid");
+	
 	//fetch data with a specific id
-	
-	
 	jsonData.forEach(d => {
 		if(d.id == rowid){
 			var addressInformation = "address goes here";
@@ -121,32 +109,24 @@ $(document).on("pageshow", "#moreDetails", function() {
 	});
 })
 
-
-
 //Save row key in a local storage to pass it to the next page
 $(document).on("click", "#largerGroupInformation >li", function() {
 	rowid = $(this).closest("li").attr("li-id");
         localStorage.setItem("rowid", $(this).closest("li").attr("li-id"));
 });
 
-
 //display map
-
-
 $(document).on("pageshow", "#availDocks", function() {
 	if (navigator.geolocation){
-
 		navigator.geolocation.getCurrentPosition(pos => {
 			lat = pos.coords.latitude;
 			lng = pos.coords.longitude;
 		});
-
 		drawMap(lat,lng);
 	}
 	else {
 		alert("Geolocation not supported"); 
 	}
-
 });
 
 // draw map
@@ -157,26 +137,20 @@ function drawMap(lat,lng)
 			center: new google.maps.LatLng( lat, lng ), zoom: 10,   
 						mapTypeId: google.maps.MapTypeId.ROADMAP   
 		};
-
 	var map = new google.maps.Map($("#map_canvas")[0],mapOptions);
-
 	//symbol representing current location
 	var lineSymbol = {
 		path: google.maps.SymbolPath.CIRCLE,
 		scale: 8,
 		strokeColor: '#393'
 	};
-
 	var myMarker = new google.maps.Marker ({
 		map: map,animation: google.maps.Animation.DROP,
 		icon: lineSymbol,
 		position: new google.maps.LatLng(lat, lng)
 	});
-
 	var geocoder = new google.maps.Geocoder();
-
 	var info = new google.maps.InfoWindow ( {content: "My current location", maxWidth: 150  } );
-
 	google.maps.event.addListener(myMarker, "click", function() {info.open(map, myMarker);});
 
 	geocoder.geocode({"latLng":new google.maps.LatLng(lat, lng)},function(data,status) {
@@ -199,9 +173,7 @@ function drawMap(lat,lng)
 				{content: l.stationName + " has " + l.availableDocks + 
 				" available docks. Distance: " + distance, maxWidth: 150  } 
 			);
-			
 			google.maps.event.addListener(aMarker, "click", function() {aInfo.open(map, aMarker);});
-
 			//formatting address
 			geocoder.geocode(
 				{"latLng":new google.maps.LatLng(l.latitude, l.longitude)},function(adata,status) {
@@ -210,10 +182,8 @@ function drawMap(lat,lng)
 							" Available docks: " + l.availableDocks + " Distance: " + distance);
 					}
 			}); 
-			
 		}
 	});
-
 }
 
 //get distance in kilometers
