@@ -1,4 +1,8 @@
 //Document ready function
+
+var lat = 43.656246;
+var lng = -79.739509;
+
 $(function() {
 
 	//get JSON data
@@ -11,6 +15,16 @@ $(function() {
 		updateList(groupNumber);
 	});
 
+	//get current location
+	if (navigator.geolocation){
+		//lat = 43.66207;
+		//lng = -80.37617;
+
+		navigator.geolocation.getCurrentPosition(pos => {
+			lat = pos.coords.latitude;
+			lng = pos.coords.longitude;
+		});
+	}
 }) //End of document ready
 
 var jsonData; //global var
@@ -110,8 +124,7 @@ $(document).on("click", "#largerGroupInformation >li", function() {
 
 
 //display map
-var lat = 43.656246;
-var lng = -79.739509;
+
 
 $(document).on("pageshow", "#availDocks", function() {
 	if (navigator.geolocation){
