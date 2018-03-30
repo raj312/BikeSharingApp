@@ -154,7 +154,7 @@ function drawMap(lat,lng)
 {
 	var mapOptions = 
 		{
-			center: new google.maps.LatLng( lat, lng ), zoom: 15,   
+			center: new google.maps.LatLng( lat, lng ), zoom: 10,   
 						mapTypeId: google.maps.MapTypeId.ROADMAP   
 		};
 
@@ -189,7 +189,7 @@ function drawMap(lat,lng)
 	jsonData.forEach(l => {
 		distance = Haversine(lat, lng, l.latitude, l.longitude);
 		console.log(distance + "km");
-		if(l.availableDocks > 20 && distance < distanceInput){
+		if(l.availableDocks > 0 && distance < distanceInput){
 			var aMarker = new google.maps.Marker ({
 				map: map,animation: google.maps.Animation.DROP,
 				position: new google.maps.LatLng(l.latitude, l.longitude)
