@@ -236,7 +236,6 @@ function emailFunction() {
 	}
 	var mailQuery = "mailto:" + document.querySelector('#myEmail').value + "?subject=" + document.querySelector('#subject').value + "&body=" + document.querySelector('#message').value;
 	document.location.href = mailQuery;
-//	document.querySelector('#demo').innerHTML = x;
 	window.open(x,'_system');
 }
 
