@@ -16,7 +16,7 @@ $(function() {
 	$.getJSON('bikeshare.json', loadData)
 	.fail(function() {
 		alert("Failed to load JSON");
-	  });
+	});
 	groupNumber = $("#groupNum").val();
 	//user changes value and hits search
 	$("#searchBtn").click(function(){
@@ -207,23 +207,19 @@ function Deg2Rad( deg ) {
 	return deg * Math.PI / 180; 
 }  
 
-
 //add image capture fucntions
 function onDeviceReady() {
 //	alert("hi");
 	document.getElementById("imageBtn").addEventListener("click", function() {
 		_type = "image";
-		navigator.device.capture.captureImage(captureSuccess,captureError, {limit:1});
-		//capture just one image
+		navigator.device.capture.captureImage(captureSuccess,captureError, {limit:1});	//capture just one image
 	});
 	
 	var captureSuccess = function(mediaFiles) {
+		//notify the user
+		alertFunction();		
 		var i, path, len;
-			//		for (i= 0, len= mediaFiles.length; i< len; i+= 1) {
 		path = mediaFiles[0].fullPath;
-			// do something interesting with the file
-			//		}
-		alert(path);
 		$("#myImage").attr("src",path);
 	}
 
@@ -242,4 +238,13 @@ function emailFunction() {
 	document.location.href = mailQuery;
 //	document.querySelector('#demo').innerHTML = x;
 	window.open(x,'_system');
+}
+
+function alertFunction(){
+	navigator.notification.alert(
+		'This image has been saved to your device memory',  // message
+		function(){},         // callback
+		'Capture Image',            // title
+		'Ok'                  // buttonName
+	);
 }
