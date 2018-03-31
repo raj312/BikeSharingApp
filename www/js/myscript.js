@@ -4,7 +4,7 @@ var groupNumber;
 var lat = 43.656246;
 var lng = -79.739509;
 var distanceInput = 30.599;
-var lineSymbol;
+
 //after the dom(body) has loaded
 function init(){
 	document.addEventListener("deviceready", onDeviceReady, true);
@@ -145,14 +145,11 @@ function drawMap(lat,lng)
 		};
 	var map = new google.maps.Map($("#map_canvas")[0],mapOptions);
 	//symbol representing current location
-	
-	if(lineSymbol == null){
-		lineSymbol = {
-			path: google.maps.SymbolPath.CIRCLE,
-			scale: 8,
-			strokeColor: '#393'
-		};
-	}
+	var lineSymbol = {
+		path: google.maps.SymbolPath.CIRCLE,
+		scale: 8,
+		strokeColor: '#393'
+	};
 	var myMarker = new google.maps.Marker ({
 		map: map,animation: google.maps.Animation.DROP,
 		icon: lineSymbol,
@@ -228,7 +225,6 @@ function onDeviceReady() {
 			//		}
 		alert(path);
 		$("#myImage").attr("src",path);
-		lineSymbol = 
 	}
 
 	var captureError = function(){
