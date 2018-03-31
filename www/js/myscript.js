@@ -231,3 +231,15 @@ function onDeviceReady() {
 		alert("Error");
 	}
 }
+
+//send email
+function emailFunction() {
+	if (document.querySelector('#myEmail').value.indexOf("@") == -1)  {
+		alert("Not a valid e-mail!");
+		return;
+	}
+	var mailQuery = "mailto:" + document.querySelector('#myEmail').value + "?subject=" + document.querySelector('#subject').value + "&body=" + document.querySelector('#message').value;
+	document.location.href = mailQuery;
+//	document.querySelector('#demo').innerHTML = x;
+	window.open(x,'_system');
+}
