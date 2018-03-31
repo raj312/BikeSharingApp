@@ -4,6 +4,11 @@ var groupNumber;
 var lat = 43.656246;
 var lng = -79.739509;
 var distanceInput = 30.599;
+var lineSymbol;
+//after the dom(body) has loaded
+function init(){
+	document.addEventListener("deviceready", onDeviceReady, true);
+}
 
 //Document ready function
 $(function() {
@@ -32,6 +37,7 @@ $(function() {
 		distanceInput = $("#distanceInput").val();
 		drawMap(lat, lng);
 	});
+
 }) //End of document ready
 
 function loadData(data){
@@ -139,11 +145,14 @@ function drawMap(lat,lng)
 		};
 	var map = new google.maps.Map($("#map_canvas")[0],mapOptions);
 	//symbol representing current location
-	var lineSymbol = {
-		path: google.maps.SymbolPath.CIRCLE,
-		scale: 8,
-		strokeColor: '#393'
-	};
+	
+	if(lineSymbol == null){
+		lineSymbol = {
+			path: google.maps.SymbolPath.CIRCLE,
+			scale: 8,
+			strokeColor: '#393'
+		};
+	}
 	var myMarker = new google.maps.Marker ({
 		map: map,animation: google.maps.Animation.DROP,
 		icon: lineSymbol,
@@ -162,7 +171,6 @@ function drawMap(lat,lng)
 	var distance;
 	jsonData.forEach(l => {
 		distance = Haversine(lat, lng, l.latitude, l.longitude);
-		console.log(distance + "km");
 		if(l.availableDocks > 0 && distance < distanceInput){
 			var aMarker = new google.maps.Marker ({
 				map: map,animation: google.maps.Animation.DROP,
@@ -201,3 +209,29 @@ function Haversine( lat1, lng1, lat2, lng2 ) {
 function Deg2Rad( deg ) { 
 	return deg * Math.PI / 180; 
 }  
+
+
+//add image capture fucntions
+function onDeviceReady() {
+//	alert("hi");
+	document.getElementById("imageBtn").addEventListener("click", function() {
+		_type = "image";
+		navigator.device.capture.captureImage(captureSuccess,captureError, {limit:1});
+		//capture just one image
+	});
+	
+	var captureSuccess = function(mediaFiles) {
+		var i, path, len;
+			//		for (i= 0, len= mediaFiles.length; i< len; i+= 1) {
+		path = mediaFiles[0].fullPath;
+			// do something interesting with the file
+			//		}
+		alert(path);
+		$("#myImage").attr("src",path);
+		lineSymbol = 
+	}
+
+	var captureError = function(){
+		alert("Error");
+	}
+}
