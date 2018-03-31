@@ -246,6 +246,21 @@ module.exports = [
         "id": "cordova-plugin-media-capture.CaptureProxy",
         "pluginId": "cordova-plugin-media-capture",
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-email/www/email_composer.js",
+        "id": "cordova-plugin-email.EmailComposer",
+        "pluginId": "cordova-plugin-email",
+        "clobbers": [
+            "cordova.plugins.email",
+            "plugin.email"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-email/src/browser/EmailComposerProxy.js",
+        "id": "cordova-plugin-email.EmailComposerProxy",
+        "pluginId": "cordova-plugin-email",
+        "runs": true
     }
 ];
 module.exports.metadata = 
@@ -253,7 +268,8 @@ module.exports.metadata =
 {
     "cordova-plugin-whitelist": "1.3.3",
     "cordova-plugin-file": "6.0.1",
-    "cordova-plugin-media-capture": "3.0.1"
+    "cordova-plugin-media-capture": "3.0.1",
+    "cordova-plugin-email": "1.2.7"
 }
 // BOTTOM OF METADATA
 });
